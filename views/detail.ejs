@@ -1,0 +1,105 @@
+<%- include header %>
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">我的笔记列表</h3>
+	</div>
+	<div class="panel-body">
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>序号</th>
+				<th>标题</th>
+				<th>标签</th>
+				<th>日期</th>
+				<th>笔记内容</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<%list.forEach(function(note,index){%>
+			<tr>
+				<td><%=index+1%></td>
+				<td><%=note.title%></td>
+				<td><%=note.tag%></td>
+				<td><%=moment(note.createTime).locale('zh-cn').format('LL HH:mm:ss')%></td>
+				<td><%=note.content%></td>
+				<td><a href='javascript:;' onclick="show('<%=note.title%>','<%=note.tag%>','<%=moment(note.createTime).locale('zh-cn').format('LL HH:mm:ss')%>','<%=note.content%>')" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+					<a href="/delete?_id=<%=note._id%>" title="删除"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
+			</tr>
+			<%})%>
+			</tbody>
+		</table>
+
+
+		<p>共<%=totalPage%>页,当前第<%-currentPage%>页
+			<button type="button" class="btn btn-lg btn-warning"><%if(currentPage==1){%>上一页<%}else{%>
+				<a href="/?page=<%-currentPage-1%>">上一页</a><%}%></button>
+			<button type="button" class="btn btn-lg btn-success"><%if(currentPage==totalPage){%>下一页<%}else{%>
+				<a  href="/?page=<%-currentPage+1%>">下一页</a>
+				<%}%></button>
+
+		</p>
+
+	</div>
+</div>
+<div class="modal fade  bs-example-modal-lg" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="col-md-8">
+				<!—panel面板，里面放置一些控件，下同-->
+				<div class="panel panel-primary">
+					<!—panel面板的标题，下同-->
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-1">
+								<strong>标题</strong>
+						    </div>
+							<div class="col-md-11">
+								<h3 class="panel-title"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></h3>
+								<h4 class="modal-title" id="gridSystemModalLabel">Modal title</h4>
+							</div>
+						</div>
+					</div>
+					<!—panel面板的内容，下同-->
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-1">
+								<h4>标签</h4>
+							</div>
+								<div class="alert alert-success" role="alert">
+									<h4 class="col-md-4" id="tag"></h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1">
+								<h4>日期</h4>
+							</div>
+							<div class="alert alert-danger" role="alert">
+								<h4 class="col-md-4" id="date"></h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-1">
+								<h4>内容</h4>
+							</div>
+							<div class="alert alert-warning" role="alert">
+								<h4 class="col-md-4" id="content"></h4>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default  btn-info" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+      </div>
+</div><!-- /.modal -->
+<script>
+	function show(title,tag,date,content){
+		$('#gridSystemModalLabel').text(title);
+		$('#tag').text(tag);
+		$('#date').text(date);
+		$('#content').text(content);
+	}
+</script>
+
+<%- include footer %>
